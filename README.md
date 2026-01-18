@@ -1,31 +1,31 @@
-# UFO Gen Kit
+# Gen
 
 <img src="./gopher.png" height="250px" width="auto">
 
 <br/>
 
 <p>
-  <a href="https://github.com/uforg/ufogenkit/actions">
-    <img src="https://github.com/uforg/ufogenkit/actions/workflows/ci.yaml/badge.svg" alt="CI status"/>
+  <a href="https://github.com/varavelio/gen/actions">
+    <img src="https://github.com/varavelio/gen/actions/workflows/ci.yaml/badge.svg" alt="CI status"/>
   </a>
-  <a href="https://pkg.go.dev/github.com/uforg/ufogenkit">
-    <img src="https://pkg.go.dev/badge/github.com/uforg/ufogenkit" alt="Go Reference"/>
+  <a href="https://pkg.go.dev/github.com/varavelio/gen">
+    <img src="https://pkg.go.dev/badge/github.com/varavelio/gen" alt="Go Reference"/>
   </a>
-  <a href="https://goreportcard.com/report/uforg/ufogenkit">
-    <img src="https://goreportcard.com/badge/uforg/ufogenkit" alt="Go Report Card"/>
+  <a href="https://goreportcard.com/report/varavelio/gen">
+    <img src="https://goreportcard.com/badge/varavelio/gen" alt="Go Report Card"/>
   </a>
-  <a href="https://github.com/uforg/ufogenkit/releases/latest">
-    <img src="https://img.shields.io/github/release/uforg/ufogenkit.svg" alt="Release Version"/>
+  <a href="https://github.com/varavelio/gen/releases/latest">
+    <img src="https://img.shields.io/github/release/varavelio/gen.svg" alt="Release Version"/>
   </a>
   <a href="LICENSE">
-    <img src="https://img.shields.io/github/license/uforg/ufogenkit.svg" alt="License"/>
+    <img src="https://img.shields.io/github/license/varavelio/gen.svg" alt="License"/>
   </a>
-  <a href="https://github.com/uforg/ufogenkit">
-    <img src="https://img.shields.io/github/stars/uforg/ufogenkit?style=flat&label=github+stars"/>
+  <a href="https://github.com/varavelio/gen">
+    <img src="https://img.shields.io/github/stars/varavelio/gen?style=flat&label=github+stars"/>
   </a>
 </p>
 
-UFO Gen Kit is a simple and powerful code generation toolkit that provides a fluent interface for generating code in any programming language.
+Gen is a simple and powerful code generation toolkit that provides a fluent interface for generating code in any programming language.
 
 It handles indentation and line breaks automatically, making it easy to generate clean and properly formatted code.
 
@@ -43,7 +43,7 @@ It handles indentation and line breaks automatically, making it easy to generate
 ## Installation
 
 ```bash
-go get github.com/uforg/ufogenkit
+go get github.com/varavelio/gen
 ```
 
 ## Usage
@@ -51,7 +51,7 @@ go get github.com/uforg/ufogenkit
 ### Basic Example
 
 ```go
-g := ufogenkit.NewGenKit()
+g := gen.New()
 
 g.Line("function greet(name) {")
 
@@ -76,10 +76,10 @@ function greet(name) {
 
 ```go
 // Use 4 spaces
-g := ufogenkit.NewGenKit().WithSpaces(4)
+g := gen.New().WithSpaces(4)
 
 // Use tabs
-g := ufogenkit.NewGenKit().WithTabs()
+g := gen.New().WithTabs()
 ```
 
 ### Block-based Generation
@@ -87,7 +87,7 @@ g := ufogenkit.NewGenKit().WithTabs()
 With blocks, you can automatically manage indentation.
 
 ```go
-g := ufogenkit.NewGenKit()
+g := gen.New()
 g.Line("class User {")
 g.Block(func() {
     g.Line("constructor(name) {")
@@ -113,7 +113,7 @@ class User {
 
 ```go
 isAngry := true
-g := ufogenkit.NewGenKit()
+g := gen.New()
 
 g.Line("func saySomething() string {")
 g.Block(func() {
@@ -137,7 +137,7 @@ func saySomething() string {
 ### Formatted Lines
 
 ```go
-g := ufogenkit.NewGenKit()
+g := gen.New()
 g.Linef("const %s = %q", "greeting", "Hello, World!")
 ```
 
@@ -150,7 +150,7 @@ const greeting = "Hello, World!";
 ### Raw Content
 
 ```go
-g := ufogenkit.NewGenKit()
+g := gen.New()
 g.Raw("console.log('Hello, World!');")
 ```
 
@@ -163,7 +163,7 @@ console.log("Hello, World!");
 ### Manual Line Breaks
 
 ```go
-g := ufogenkit.NewGenKit()
+g := gen.New()
 g.Line("console.log('Hello')").Break().Line("console.log('World')")
 ```
 
@@ -178,7 +178,7 @@ console.log("World");
 ### Inline Content
 
 ```go
-g := ufogenkit.NewGenKit()
+g := gen.New()
 g.Inline("console.log('Hello')").Inline("console.log('World')")
 ```
 
@@ -191,7 +191,7 @@ console.log('Hello')console.log('World')
 ### Generating the Code
 
 ```go
-g := ufogenkit.NewGenKit()
+g := gen.New()
 g.Line("package main")
 
 result := g.String()
@@ -202,7 +202,7 @@ result := g.String()
 ### TypeScript Interface
 
 ```go
-g := ufogenkit.NewGenKit()
+g := gen.New()
 g.Line("interface User {").
     Indent().
     Line("id: string").
@@ -215,7 +215,7 @@ g.Line("interface User {").
 ### Python Class
 
 ```go
-g := ufogenkit.NewGenKit().WithSpaces(4)
+g := gen.New().WithSpaces(4)
 g.Line("class User:").
     Indent().
     Line("def __init__(self, name, age):").
@@ -233,7 +233,7 @@ g.Line("class User:").
 ### Go Struct
 
 ```go
-g := ufogenkit.NewGenKit()
+g := gen.New()
 g.Line("type User struct {").
     Indent().
     Line("ID   int").

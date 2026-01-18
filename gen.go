@@ -1,25 +1,25 @@
-// Package ufogenkit provides a simple and powerful code generation toolkit.
-package ufogenkit
+// Package gen provides a simple and powerful code generation toolkit.
+package gen
 
 import (
 	"fmt"
 	"strings"
 )
 
-// GenKit provides a fluent interface for generating code in any programming language.
+// Generator provides a fluent interface for generating code in any programming language.
 //
 // It handles indentation and line breaks automatically
-type GenKit struct {
+type Generator struct {
 	sb            strings.Builder
 	indentLevel   int
 	indentString  string
 	atStartOfLine bool // Tracks if the next write should be indented
 }
 
-// NewGenKit creates a new GenKit instance with default settings (2 spaces indentation).
+// New creates a new Generator instance with default settings (2 spaces indentation).
 // The generator starts positioned at the beginning of a line.
-func NewGenKit() *GenKit {
-	return &GenKit{
+func New() *Generator {
+	return &Generator{
 		sb:            strings.Builder{},
 		indentLevel:   0,
 		indentString:  "  ",
@@ -28,27 +28,27 @@ func NewGenKit() *GenKit {
 }
 
 // WithSpaces configures the generator to use the specified number of spaces for each indentation level.
-func (g *GenKit) WithSpaces(spaces int) *GenKit {
+func (g *Generator) WithSpaces(spaces int) *Generator {
 	g.indentString = strings.Repeat(" ", spaces)
 	return g
 }
 
 // WithTabs configures the generator to use tabs for indentation.
-func (g *GenKit) WithTabs() *GenKit {
+func (g *Generator) WithTabs() *Generator {
 	g.indentString = "\t"
 	return g
 }
 
 // Indent increases the current indentation level by one.
 // This affects subsequent writes that require indentation.
-func (g *GenKit) Indent() *GenKit {
+func (g *Generator) Indent() *Generator {
 	g.indentLevel++
 	return g
 }
 
 // Dedent decreases the current indentation level by one.
 // This affects subsequent writes that require indentation.
-func (g *GenKit) Dedent() *GenKit {
+func (g *Generator) Dedent() *Generator {
 	if g.indentLevel > 0 {
 		g.indentLevel--
 	}
@@ -62,7 +62,7 @@ func (g *GenKit) Dedent() *GenKit {
 // write will be indented if needed.
 //
 // Use this for pre-formatted text or specific formatting needs.
-func (g *GenKit) Raw(content string) *GenKit {
+func (g *Generator) Raw(content string) *Generator {
 	if content == "" {
 		return g
 	}
@@ -79,14 +79,14 @@ func (g *GenKit) Raw(content string) *GenKit {
 // the result directly using Raw's logic (bypassing indentation/newlines).
 //
 // See Raw for details on behavior and state updates.
-func (g *GenKit) Rawf(format string, args ...any) *GenKit {
+func (g *Generator) Rawf(format string, args ...any) *Generator {
 	return g.Raw(fmt.Sprintf(format, args...))
 }
 
 // Break writes a single newline character to the output.
 //
 // It ensures the generator is positioned at the start of a new line for subsequent writes.
-func (g *GenKit) Break() *GenKit {
+func (g *Generator) Break() *Generator {
 	g.sb.WriteString("\n")
 	g.atStartOfLine = true
 	return g
@@ -99,7 +99,7 @@ func (g *GenKit) Break() *GenKit {
 //
 // If the content string contains newlines, lines following the newline character
 // within the content string will be correctly indented.
-func (g *GenKit) Inline(content string) *GenKit {
+func (g *Generator) Inline(content string) *Generator {
 	if content == "" {
 		return g
 	}
@@ -132,7 +132,7 @@ func (g *GenKit) Inline(content string) *GenKit {
 // Inlinef formats the arguments and writes the result using Inline's logic.
 //
 // See Inline for details on behavior and state updates.
-func (g *GenKit) Inlinef(format string, args ...any) *GenKit {
+func (g *Generator) Inlinef(format string, args ...any) *Generator {
 	return g.Inline(fmt.Sprintf(format, args...))
 }
 
@@ -140,7 +140,7 @@ func (g *GenKit) Inlinef(format string, args ...any) *GenKit {
 // with a newline, ensuring the next write starts on a fresh, indented line.
 //
 // It's a convenient combination of Inline followed by Break.
-func (g *GenKit) Line(content string) *GenKit {
+func (g *Generator) Line(content string) *Generator {
 	g.Inline(content) // Write the content, indenting if at start of line
 	g.Break()         // Add the newline and set state for the next line
 	return g
@@ -149,7 +149,7 @@ func (g *GenKit) Line(content string) *GenKit {
 // Linef formats the arguments and writes the result using Line's logic.
 //
 // See Line for details on behavior and state updates.
-func (g *GenKit) Linef(format string, args ...any) *GenKit {
+func (g *Generator) Linef(format string, args ...any) *Generator {
 	return g.Line(fmt.Sprintf(format, args...))
 }
 
@@ -159,7 +159,7 @@ func (g *GenKit) Linef(format string, args ...any) *GenKit {
 //
 // Think of it as a way to temporarily increase the indentation level for a
 // group of related lines of code written inside the `fn` argument.
-func (g *GenKit) Block(fn func()) *GenKit {
+func (g *Generator) Block(fn func()) *Generator {
 	g.Indent()
 	fn()
 	g.Dedent()
@@ -167,6 +167,6 @@ func (g *GenKit) Block(fn func()) *GenKit {
 }
 
 // String returns the final generated code as a single string.
-func (g *GenKit) String() string {
+func (g *Generator) String() string {
 	return g.sb.String()
 }

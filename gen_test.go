@@ -1,14 +1,14 @@
-package ufogenkit
+package gen
 
 import (
 	"testing"
 
-	"github.com/uforg/ufogenkit/internal/assert"
+	"github.com/varavelio/gen/internal/assert"
 )
 
 func TestBasicIndentation(t *testing.T) {
 	t.Run("DefaultIndentation", func(t *testing.T) {
-		g := NewGenKit()
+		g := New()
 		g.Line("if (true) {").
 			Indent().
 			Line("console.log('hello')").
@@ -20,7 +20,7 @@ func TestBasicIndentation(t *testing.T) {
 	})
 
 	t.Run("CustomSpaces", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(4)
+		g := New().WithSpaces(4)
 		g.Line("if (true) {").
 			Indent().
 			Line("console.log('hello')").
@@ -32,7 +32,7 @@ func TestBasicIndentation(t *testing.T) {
 	})
 
 	t.Run("WithTabs", func(t *testing.T) {
-		g := NewGenKit().WithTabs()
+		g := New().WithTabs()
 		g.Line("if (true) {").
 			Indent().
 			Line("console.log('hello')").
@@ -44,7 +44,7 @@ func TestBasicIndentation(t *testing.T) {
 	})
 
 	t.Run("Empty lines", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(2)
+		g := New().WithSpaces(2)
 		g.Line("// This is a comment").
 			Break().
 			Break().
@@ -57,7 +57,7 @@ func TestBasicIndentation(t *testing.T) {
 
 func TestChainable(t *testing.T) {
 	t.Run("Test With Chain of Methods", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(2).WithTabs()
+		g := New().WithSpaces(2).WithTabs()
 		g.Line("if (true) {").
 			Indent().
 			Line("console.log('hello')").
@@ -69,7 +69,7 @@ func TestChainable(t *testing.T) {
 	})
 
 	t.Run("Test Without Chain of Methods", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(2).WithTabs()
+		g := New().WithSpaces(2).WithTabs()
 		g.Line("if (true) {")
 		g.Indent()
 		g.Line("console.log('hello')")
@@ -83,7 +83,7 @@ func TestChainable(t *testing.T) {
 
 func TestBlock(t *testing.T) {
 	t.Run("SimpleBlock", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(2)
+		g := New().WithSpaces(2)
 		g.Line("if (true) {").
 			Block(func() {
 				g.Line("console.log('hello')").
@@ -100,7 +100,7 @@ func TestBlock(t *testing.T) {
 	})
 
 	t.Run("NestedBlocks", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(2)
+		g := New().WithSpaces(2)
 		g.Line("function example() {").
 			Block(func() {
 				g.Line("if (condition) {").
@@ -129,7 +129,7 @@ func TestBlock(t *testing.T) {
 
 func TestLinef(t *testing.T) {
 	t.Run("SimpleFormat", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(2)
+		g := New().WithSpaces(2)
 		g.Linef("const greeting = %q", "Hello, World!")
 
 		want := `const greeting = "Hello, World!"
@@ -138,7 +138,7 @@ func TestLinef(t *testing.T) {
 	})
 
 	t.Run("TypeScriptInterface", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(2)
+		g := New().WithSpaces(2)
 		g.Linef("interface %s {", "User").
 			Indent().
 			Linef("id: %s", "string").
@@ -155,7 +155,7 @@ func TestLinef(t *testing.T) {
 	})
 
 	t.Run("GoStruct", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(2)
+		g := New().WithSpaces(2)
 		g.Linef("type %s struct {", "User").
 			Indent().
 			Linef("ID   %s", "int").
@@ -174,7 +174,7 @@ func TestLinef(t *testing.T) {
 
 func TestMultiLanguageExamples(t *testing.T) {
 	t.Run("PythonClass", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(4)
+		g := New().WithSpaces(4)
 		g.Line("class User:").
 			Indent().
 			Line("def __init__(self, name, age):").
@@ -201,7 +201,7 @@ func TestMultiLanguageExamples(t *testing.T) {
 	})
 
 	t.Run("RubyClass", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(2)
+		g := New().WithSpaces(2)
 		g.Line("class User").
 			Indent().
 			Line("def initialize(name, age)").
@@ -234,7 +234,7 @@ end
 	})
 
 	t.Run("JavaClass", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(4)
+		g := New().WithSpaces(4)
 		g.Linef("public class %s {", "User").
 			Indent().
 			Line("private String name;").
@@ -275,7 +275,7 @@ end
 
 func TestInline(t *testing.T) {
 	t.Run("SimpleInline", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(2)
+		g := New().WithSpaces(2)
 		g.Inline("console.log('hello')")
 
 		want := "console.log('hello')"
@@ -283,7 +283,7 @@ func TestInline(t *testing.T) {
 	})
 
 	t.Run("InlineWithIndentation", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(2)
+		g := New().WithSpaces(2)
 		g.Indent().Inline("console.log('hello')")
 
 		want := "  console.log('hello')"
@@ -291,7 +291,7 @@ func TestInline(t *testing.T) {
 	})
 
 	t.Run("InlineWithMultipleLines", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(2)
+		g := New().WithSpaces(2)
 		g.Inline("console.log('hello')").Inline("console.log('world')")
 
 		want := "console.log('hello')console.log('world')"
@@ -301,7 +301,7 @@ func TestInline(t *testing.T) {
 
 func TestInlinef(t *testing.T) {
 	t.Run("SimpleInlinef", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(2)
+		g := New().WithSpaces(2)
 		g.Inlinef("const greeting = %q", "Hello, World!")
 
 		want := "const greeting = \"Hello, World!\""
@@ -309,7 +309,7 @@ func TestInlinef(t *testing.T) {
 	})
 
 	t.Run("InlinefWithIndentation", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(2)
+		g := New().WithSpaces(2)
 		g.Indent().Inlinef("const greeting = %q", "Hello, World!")
 
 		want := "  const greeting = \"Hello, World!\""
@@ -317,7 +317,7 @@ func TestInlinef(t *testing.T) {
 	})
 
 	t.Run("InlinefWithMultipleLines", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(2)
+		g := New().WithSpaces(2)
 		g.Inlinef("const greeting = %q", "Hello, World!").Inlinef("console.log(%q)", "Hello, World!")
 
 		want := "const greeting = \"Hello, World!\"console.log(\"Hello, World!\")"
@@ -327,7 +327,7 @@ func TestInlinef(t *testing.T) {
 
 func TestSublines(t *testing.T) {
 	t.Run("If a line contains newlines, each line will be properly indented", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(2)
+		g := New().WithSpaces(2)
 		g.Line("function test() {")
 		g.Block(func() {
 			g.Line("console.log('hello')\nconsole.log('world')")
@@ -345,7 +345,7 @@ func TestSublines(t *testing.T) {
 
 func TestInlineContinuation(t *testing.T) {
 	t.Run("Inline multiple times on same line", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(2)
+		g := New().WithSpaces(2)
 		g.Line("const x = ").
 			Indent().
 			Inline("1").
@@ -357,7 +357,7 @@ func TestInlineContinuation(t *testing.T) {
 	})
 
 	t.Run("Inline after Line", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(2)
+		g := New().WithSpaces(2)
 		g.Line("line1")
 		g.Inline("line2")
 
@@ -366,7 +366,7 @@ func TestInlineContinuation(t *testing.T) {
 	})
 
 	t.Run("Line after Inline", func(t *testing.T) {
-		g := NewGenKit().WithSpaces(2)
+		g := New().WithSpaces(2)
 		g.Inline("line1")
 		g.Line("line2")
 
