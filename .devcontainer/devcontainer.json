@@ -3,15 +3,16 @@
     "dockerfile": "./Dockerfile",
     "context": ".."
   },
+  "remoteUser": "root",
+  "mounts": [
+    "source=${localEnv:HOME}/.claude,target=/root/.claude,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.config/opencode,target=/root/.config/opencode,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.local/share/opencode,target=/root/.local/share/opencode,type=bind,consistency=cached"
+  ],
   "customizations": {
     "vscode": {
       "extensions": [
-        "golang.go",
-        "mhutchie.git-graph",
-        "mutantdino.resourcemonitor",
-        "Compile-TomaszKasperczyk.copy-to-llm",
-        "donjayamanne.githistory",
-        "ryu1kn.partial-diff"
+        "golang.go"
       ],
       "settings": {
         "editor.formatOnSave": true,
@@ -26,7 +27,6 @@
         "[markdown]": {
           "editor.defaultFormatter": "vscode.markdown-language-features"
         },
-        "svelte.enable-ts-plugin": true,
         "[go]": {
           "editor.defaultFormatter": "golang.go"
         },
