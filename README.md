@@ -1,4 +1,4 @@
-# Gen
+# Varavel Gen
 
 <img src="./gopher.png" height="250px" width="auto">
 
