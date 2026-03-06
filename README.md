@@ -1,6 +1,6 @@
 # Varavel Gen
 
-<img src="./gopher.png" height="250px" width="auto">
+<img src="./gopher-200px.png">
 
 <br/>
 
