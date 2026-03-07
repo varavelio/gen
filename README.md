@@ -241,3 +241,9 @@ g.Line("type User struct {").
     Dedent().
     Line("}")
 ```
+
+## License
+
+This project is released under the MIT License. See [LICENSE](LICENSE).
+
+
