@@ -25,6 +25,12 @@
   </a>
 </p>
 
+<p>
+  <a href="https://varavel.com">
+    <img src="https://cdn.jsdelivr.net/gh/varavelio/brand@1.0.0/dist/badges/project.svg" alt="A Varavel project"/>
+  </a>
+</p>
+
 Gen is a simple and powerful code generation toolkit that provides a fluent interface for generating code in any programming language.
 
 It handles indentation and line breaks automatically, making it easy to generate clean and properly formatted code.
@@ -245,5 +251,3 @@ g.Line("type User struct {").
 ## License
 
 This project is released under the MIT License. See [LICENSE](LICENSE).
-
-
